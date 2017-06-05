@@ -2999,6 +2999,11 @@ else
 endif
 endfunction
 
+function! VimIMReload()
+    let s:backend[s:ui.root][s:ui.im].lines=[]
+    echo 'VimIM datafile reloaded'
+endfunction
+
 function! s:vimim_popupmenu_list(lines)
     let s:match_list = a:lines
     let keyboards = split(s:keyboard)  " mmmm => ['m',"m'm'm"]
