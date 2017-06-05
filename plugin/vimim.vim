@@ -68,12 +68,12 @@ function! s:vimim_initialize_backdoor()
     let s:english.filename = s:vimim_filereadable("vimim.txt")
     let s:mandarin = len(s:english.filename) ? 0 : 1 " s/t chinese style
     let s:hit_and_run = len(s:cjk.filename) ? 0 : 1 " onekey continuity
-    if len(s:cjk.filename)
-        highlight! PmenuSbar  NONE
-        highlight! PmenuThumb NONE
-        highlight! Pmenu      NONE
-        highlight! link PmenuSel NonText
-    endif
+    "if len(s:cjk.filename)
+    "    highlight! PmenuSbar  NONE
+    "    highlight! PmenuThumb NONE
+    "    highlight! Pmenu      NONE
+    "    highlight! link PmenuSel NonText
+    "endif
 endfunction
 
 function! s:vimim_debug(...)
@@ -1650,6 +1650,8 @@ function! s:vimim_filereadable(filename)
     let datafile_2 = s:plugon . a:filename
     if filereadable(datafile_1)
         return datafile_1
+    elseif !empty(globpath(&rtp, 'plugin/' . a:filename))
+        return globpath(&rtp, 'plugin/' . a:filename)
     elseif filereadable(datafile_2)
         return datafile_2
     endif
@@ -2782,6 +2784,7 @@ function! s:vimim_start()
         let s:ctrl6 = 32911
         let key = nr2char(30)
     endif
+    let b:keymap_name=s:ui.root.':'.s:ui.im
     sil!exe 'sil!return "' . key . '"'
 endfunction
 
@@ -2808,7 +2811,7 @@ endfunction
 function! s:vimim_set_vimrc()
     set title noshowmatch shellslash
     set completeopt=menuone
-    set complete=.
+    "set complete=.
     set nolazyredraw
     set omnifunc=VimIM
 endfunction
