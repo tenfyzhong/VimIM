@@ -2177,7 +2177,9 @@ function! s:vimim_get_from_datafile(keyboard)
         for i in range(10)
             let cursor += i      " get more if less
             let oneline = get(backend.lines, cursor)
-            let results += s:vimim_make_pairs(oneline)
+            if match(oneline, '^\V' . a:keyboard) >= 0
+                let results += s:vimim_make_pairs(oneline)
+            endif
         endfor
     endif
     return results
